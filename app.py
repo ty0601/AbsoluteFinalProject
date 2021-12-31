@@ -1,14 +1,14 @@
 import os
 import sys
 
-from flask import Flask, jsonify, request, abort, send_file
+from flask import Flask, request, abort, send_file
 from dotenv import load_dotenv
 from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot.models import MessageEvent, TextMessage
 
 from fsm import TocMachine
-from img.machine import create_machine
+from machine import create_machine
 from utils import send_text_message
 
 load_dotenv()
@@ -88,14 +88,106 @@ def webhook_handler():
 
     return "OK"
 
-
+a = TocMachine(
+        states=["user", "play1", "play2", "play3", "play4", "read1", "read2", "read3", "read4", "fsm"],
+        transitions=[
+            {
+                "trigger": "advance",
+                "source": "user",
+                "dest": "play1",
+                "conditions": "is_going_to_play",
+            },
+            {
+                "trigger": "advance",
+                "source": "play1",
+                "dest": "play2",
+                "conditions": "is_going_to_play",
+            },
+            {
+                "trigger": "advance",
+                "source": "play2",
+                "dest": "play3",
+                "conditions": "is_going_to_play",
+            },
+            {
+                "trigger": "advance",
+                "source": "play3",
+                "dest": "play4",
+                "conditions": "is_going_to_play",
+            },
+            {
+                "trigger": "advance",
+                "source": "play4",
+                "dest": "play4",
+                "conditions": "is_going_to_play",
+            },
+            {
+                "trigger": "advance",
+                "source": "user",
+                "dest": "read1",
+                "conditions": "is_going_to_read",
+            },
+            {
+                "trigger": "advance",
+                "source": "read1",
+                "dest": "read2",
+                "conditions": "is_going_to_read",
+            },
+            {
+                "trigger": "advance",
+                "source": "read2",
+                "dest": "read3",
+                "conditions": "is_going_to_read",
+            },
+            {
+                "trigger": "advance",
+                "source": "read3",
+                "dest": "read4",
+                "conditions": "is_going_to_read",
+            },
+            {
+                "trigger": "advance",
+                "source": "read4",
+                "dest": "read4",
+                "conditions": "is_going_to_read",
+            },
+            {
+                "trigger": "advance",
+                "source": ["user", "play1", "play2", "play3", "play4", "read1", "read2", "read3", "read4"],
+                "dest": "user",
+                "conditions": "is_going_to_reset",
+            },
+            {
+                "trigger": "advance",
+                "source": ["play1", "play2", "play3", "play4"],
+                "dest": "read1",
+                "conditions": "is_going_to_read",
+            },
+            {
+                "trigger": "advance",
+                "source": ["read1", "read2", "read3", "read4"],
+                "dest": "play1",
+                "conditions": "is_going_to_play",
+            },
+            {
+                "trigger": "advance",
+                "source": "user",
+                "dest": "fsm",
+                "conditions": "is_going_to_fsm",
+            },
+            {"trigger": "go_back", "source": "fsm", "dest": "user"},
+        ],
+        initial="user",
+        auto_transitions=False,
+        show_conditions=True,
+    )
 @app.route("/show-fsm", methods=["GET"])
 def show_fsm():
-    machines.get_graph().draw("fsm.png", prog="dot", format="png")
+    a.get_graph().draw("fsm.png", prog="dot", format="png")
     return send_file("fsm.png", mimetype="image/png")
 
 
 if __name__ == "__main__":
-    # show_fsm()
+    show_fsm()
     port = os.environ.get("PORT", 8000)
     app.run(host="0.0.0.0", port=port, debug=True)

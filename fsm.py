@@ -1,6 +1,7 @@
+from linebot.models import ImageSendMessage
 from transitions.extensions import GraphMachine
 
-from utils import send_text_message
+from utils import send_text_message, send_image_url
 
 
 class TocMachine(GraphMachine):
@@ -18,6 +19,10 @@ class TocMachine(GraphMachine):
     def is_going_to_reset(self, event):
         text = event.message.text
         return text.lower() == "reset"
+
+    def is_going_to_fsm(self, event):
+        text = event.message.text
+        return text.lower() == "fsm"
 
     def on_enter_read1(self, event):
         print("I'm reading")
@@ -66,3 +71,11 @@ class TocMachine(GraphMachine):
 
         reply_token = event.reply_token
         send_text_message(reply_token, "Don't play anymore!")
+
+
+    def on_enter_fsm(self, event):
+        print("I'm in fsm")
+
+        reply_token = event.reply_token
+        send_image_url(reply_token, )
+

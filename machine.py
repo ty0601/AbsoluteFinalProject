@@ -3,7 +3,7 @@ from fsm import TocMachine
 
 def create_machine():
     machine = TocMachine(
-        states=["user", "play1", "play2", "play3", "play4", "read1", "read2", "read3", "read4"],
+        states=["user", "play1", "play2", "play3", "play4", "read1", "read2", "read3", "read4", "fsm"],
         transitions=[
             {
                 "trigger": "advance",
@@ -83,7 +83,13 @@ def create_machine():
                 "dest": "play1",
                 "conditions": "is_going_to_play",
             },
-
+            {
+                "trigger": "advance",
+                "source": "user",
+                "dest": "fsm",
+                "conditions": "is_going_to_fsm",
+            },
+            {"trigger": "go_back", "source": "fsm", "dest": "user"},
         ],
         initial="user",
         auto_transitions=False,
