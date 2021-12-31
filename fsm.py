@@ -78,7 +78,7 @@ class TocMachine(GraphMachine):
         text = event.message.text
         return text.lower() == "go to state2"
 
-    def on_enter_to_play1(self, event):
+    def on_enter_play1(self, event):
         print("I'm playing")
 
         reply_token = event.reply_token
