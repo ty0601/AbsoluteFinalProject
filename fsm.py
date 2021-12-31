@@ -11,6 +11,10 @@ class TocMachine(GraphMachine):
         text = event.message.text
         return text.lower() == "study"
 
+    def is_going_to_read1(self, event):
+        text = event.message.text
+        return text.lower() == "study1"
+
     def is_going_to_play(self, event):
         text = event.message.text
         return text.lower() == "play"
