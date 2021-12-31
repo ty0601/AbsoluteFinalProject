@@ -7,15 +7,15 @@ class TocMachine(GraphMachine):
     def __init__(self, **machine_configs):
         self.machine = GraphMachine(model=self, **machine_configs)
 
-    def read(self, event):
+    def is_going_to_read(self, event):
         text = event.message.text
         return text.lower() == "study"
 
-    def play(self, event):
+    def is_goint_to_play(self, event):
         text = event.message.text
         return text.lower() == "play"
 
-    def reset(self, event):
+    def is_going_to_reset(self, event):
         text = event.message.text
         return text.lower() == "reset"
 
