@@ -83,6 +83,7 @@ class TocMachine(GraphMachine):
 
         reply_token = event.reply_token
         send_text_message(reply_token, "Play for two hours.")
+        self.go_back()
 
     def on_exit_state1(self):
         print("Leaving state1")
