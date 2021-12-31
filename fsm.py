@@ -19,49 +19,49 @@ class TocMachine(GraphMachine):
         text = event.message.text
         return text.lower() == "reset"
 
-    def read1(self, event):
+    def on_enter_to_read1(self, event):
         print("I'm reading")
 
         reply_token = event.reply_token
         send_text_message(reply_token, "Study for two hours.")
 
-    def read2(self, event):
+    def on_enter_to_read2(self, event):
         print("I'm reading")
 
         reply_token = event.reply_token
         send_text_message(reply_token, "Study for two hours.")
 
-    def read3(self, event):
+    def on_enter_to_read3(self, event):
         print("I'm reading")
 
         reply_token = event.reply_token
         send_text_message(reply_token, "Study for two hours.")
 
-    def read4(self, event):
+    def on_enter_to_read4(self, event):
         print("I'm reading")
 
         reply_token = event.reply_token
         send_text_message(reply_token, "You need to take a break!")
 
-    def play1(self, event):
+    def on_enter_to_play1(self, event):
         print("I'm playing")
 
         reply_token = event.reply_token
         send_text_message(reply_token, "Play for two hours.")
 
-    def play2(self, event):
+    def on_enter_to_play2(self, event):
         print("I'm playing")
 
         reply_token = event.reply_token
         send_text_message(reply_token, "Play for two hours.")
 
-    def play3(self, event):
+    def on_enter_to_play3(self, event):
         print("I'm playing")
 
         reply_token = event.reply_token
         send_text_message(reply_token, "Play for two hours.")
 
-    def play4(self, event):
+    def on_enter_to_play4(self, event):
         print("I'm playing")
 
         reply_token = event.reply_token
